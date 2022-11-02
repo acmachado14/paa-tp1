@@ -2,7 +2,7 @@
 
 bool leituraDados(Fazenda *fazenda){
     int N, M, numeroCampo, i, j;
-    char nomeArquivo[50] = "testes/teste1.txt";
+    char nomeArquivo[50] = "tests/test01.txt";
     FILE *file;
     file = fopen(nomeArquivo, "r");
     if(file == NULL){
@@ -130,3 +130,42 @@ void movimentarAuxiliar(Fazenda *fazenda, int posicaoNaRota, bool *caminhoOtimo,
         }
     }
 }
+
+int* fibonacci(int n){
+    if(n == 0){
+        int* vetor = (int*) malloc(sizeof(int));
+        vetor[0] = 1;
+        return vetor;
+    }
+    if(n == 1){
+        int* vetor = (int*) malloc(sizeof(int)*2);
+        vetor[0] = 1;
+        vetor[1] = 1;
+        return vetor;
+    }
+
+    int *vetor = (int*)malloc(n * sizeof(int));
+    vetor[0] = 1;
+    vetor[1] = 1;
+    for(int i = 2; i < n; i++){
+        vetor[i] = vetor[i - 1] + vetor[i - 2];
+    }
+    return vetor;
+}
+
+int* gerarSequencia(int n){
+    int *fibo = (int*)malloc(n * sizeof(int));
+    int i = 0;
+    int fiboCont = 1;
+    while(i < n){
+        int *vetor = fibonacci(fiboCont);
+
+        for(int j = 0; j < fiboCont; j++){
+            fibo[i] = vetor[j];
+            i++;
+        }
+        fiboCont++;
+    }
+    return fibo;
+}
+

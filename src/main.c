@@ -11,4 +11,8 @@ void main(){
         return;
     }
     movimentar(&fazenda);
+    int *fibo = gerarSequencia(15);
+    for(int i = 0; i < 15; i++){
+        printf("%d ", fibo[i]);
+    }
 }
