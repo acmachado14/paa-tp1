@@ -74,3 +74,29 @@ int* gerarSequencia(int n){
     }
     return fibo;
 }
+
+//Nao funcional, precisa de ajustes
+void movimentar(Fazenda *fazenda, int i, int j, int *sequencia, int tamanhoSequencia, int *sequenciaAtual, int tamanhoSequenciaAtual, int *melhorSequencia, int *tamanhoMelhorSequencia){
+    if(i < 0 || i >= fazenda->N || j < 0 || j >= fazenda->M){
+        return;
+    }
+    if(fazenda->campo[i][j] == 0){
+        return;
+    }
+    if(tamanhoSequenciaAtual > *tamanhoMelhorSequencia){
+        *tamanhoMelhorSequencia = tamanhoSequenciaAtual;
+        for(int k = 0; k < tamanhoSequenciaAtual; k++){
+            melhorSequencia[k] = sequenciaAtual[k];
+        }
+    }
+    int numeroCampo = fazenda->campo[i][j];
+    if(numeroCampo == sequencia[tamanhoSequenciaAtual]){
+        sequenciaAtual[tamanhoSequenciaAtual] = numeroCampo;
+        fazenda->campo[i][j] = 0;
+        movimentar(fazenda, i + 1, j, sequencia, tamanhoSequencia, sequenciaAtual, tamanhoSequenciaAtual + 1, melhorSequencia, tamanhoMelhorSequencia);
+        movimentar(fazenda, i - 1, j, sequencia, tamanhoSequencia, sequenciaAtual, tamanhoSequenciaAtual + 1, melhorSequencia, tamanhoMelhorSequencia);
+        movimentar(fazenda, i, j + 1, sequencia, tamanhoSequencia, sequenciaAtual, tamanhoSequenciaAtual + 1, melhorSequencia, tamanhoMelhorSequencia);
+        movimentar(fazenda, i, j - 1, sequencia, tamanhoSequencia, sequenciaAtual, tamanhoSequenciaAtual + 1, melhorSequencia, tamanhoMelhorSequencia);
+        fazenda->campo[i][j] = numeroCampo;
+    }
+}
