@@ -14,3 +14,5 @@ typedef struct{
 bool leituraDados(Fazenda *fazenda);
 void inicializaMatriz(Fazenda *fazenda, int N, int M);
 void inserirNumeroCampo(Fazenda *fazenda, int  numeroCampo,int i, int j);
+int* fibonacci(int n);
+int* gerarSequencia(int n);
