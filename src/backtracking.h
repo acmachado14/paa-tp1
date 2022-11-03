@@ -5,6 +5,18 @@
 
 #define ANALISE 1
 
+typedef struct Cel* proximaCelula;
+typedef struct Cel{
+    int linha;
+    int coluna;
+    proximaCelula proxima;
+}Celula;
+
+typedef struct{
+    proximaCelula primeira;
+}ListaEncadeada;
+
+
 typedef struct{
     int **campo;
     int *rota;
@@ -16,18 +28,20 @@ bool leituraDados(Fazenda *fazenda);
 
 void inicializaMatriz(Fazenda *fazenda, int N, int M);
 
-int getN(Fazenda *fazenda);
-
-int getM(Fazenda *fazenda);
-
 void inserirNumeroCampo(Fazenda *fazenda, int  numeroCampo,int i, int j);
 
 void rotaOtima(Fazenda *fazenda);
 
 void movimentar(Fazenda *fazenda);
 
-void movimentarAuxiliar(Fazenda *fazenda, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int N, int M, int l, int c, int deOndeVeio);
+void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c, int deOndeVeio);
 
 int* fibonacci(int n);
 
 int* gerarSequencia(int n);
+
+void inicializaListaEncadeada(ListaEncadeada *listaEncadeada);
+
+void inserirListaEncadeada(ListaEncadeada *listaEncadeada, int linha, int coluna);
+
+void imprimirListaEncadeada(ListaEncadeada *listaEncadeada);

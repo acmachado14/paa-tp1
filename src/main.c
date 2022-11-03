@@ -2,8 +2,8 @@
 
 void main(){
     /*
-    * Tenho quase certeza que as funções movientar e movimentarAuxiliar estão corretas,
-    * Falta armazenar o caminho que percorrmos
+    * As funções movientar e movimentarAuxiliar estão corretas, para o caso de teste apresentado 
+    * na especificação do tp
     * */
     Fazenda fazenda;
     bool l = leituraDados(&fazenda);
@@ -11,8 +11,4 @@ void main(){
         return;
     }
     movimentar(&fazenda);
-    int *fibo = gerarSequencia(15);
-    for(int i = 0; i < 15; i++){
-        printf("%d ", fibo[i]);
-    }
 }
