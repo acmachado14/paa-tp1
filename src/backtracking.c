@@ -2,7 +2,7 @@
 
 bool leituraDados(Fazenda *fazenda){
     int N, M, numeroCampo, i, j;
-    char nomeArquivo[50] = "tests/test01.txt";
+    char nomeArquivo[50] = "tests/test02.txt";
     FILE *file;
     file = fopen(nomeArquivo, "r");
     if(file == NULL){
@@ -36,6 +36,62 @@ void inicializaMatriz(Fazenda *fazenda, int N, int M){
 
 void inserirNumeroCampo(Fazenda *fazenda, int  numeroCampo,int i, int j){
     fazenda->campo[i][j] = numeroCampo;
+}
+
+void CriaRotaOtimaMaxima(RotaOtima *rotaOtima, int N, int M){
+    int maximoTermos = N * M;
+    int termoAtual, qtdSequenciaFibonacci, i, pegaValorNaPosicao;
+    rotaOtima->rota[0] = 1;
+    rotaOtima->rota[1] = 1;
+    rotaOtima->rota[2] = 1;
+    termoAtual = 3;
+    qtdSequenciaFibonacci = 2;
+
+    while (termoAtual < maximoTermos){
+        qtdSequenciaFibonacci += 1;
+        for(i = 0; i < qtdSequenciaFibonacci; i++){
+            termoAtual++;
+            pegaValorNaPosicao = termoAtual - qtdSequenciaFibonacci;
+            if(termoAtual > maximoTermos){
+                break;
+            }
+            else if(i == qtdSequenciaFibonacci -1){
+                rotaOtima->rota[termoAtual - 1] = (rotaOtima->rota[termoAtual - 2] + rotaOtima->rota[termoAtual - 3]);
+            }
+            else{
+                rotaOtima->rota[termoAtual - 1] = rotaOtima->rota[pegaValorNaPosicao];
+            }
+        }
+
+    }
+    
+}
+
+bool criaCassoTeste(RotaOtima *rotaOtima, char *nomeArquivoTeste, int N, int M){
+    char *diretorio = (char*)malloc(sizeof(char));
+    strcpy(diretorio, "tests/");
+    strcat(strcat(diretorio, nomeArquivoTeste), ".txt");
+    printf("%s||\n", diretorio);
+    FILE *file;
+    file = fopen(diretorio,"w");
+    printf("%s||\n", diretorio);
+    if(file == NULL){
+        printf("\nErro na criacao do arquivo de teste !!!!!!!!\n\n");
+        return false;
+    }
+    fprintf(file, "%d %d\n", N, M);
+    /*
+    if(file){
+        printf("\nDigite um texto e pressione ENTER ao finalizar!");
+        scanf("%c", &letra);
+        while(letra != '\n'){
+            fputc(letra, file);
+            scanf("%c", &letra);
+        }
+        fclose(file);
+    }*/
+    fclose(file);
+    return true;
 }
 
 void rotaOtima(Fazenda *fazenda){
@@ -117,7 +173,7 @@ void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int po
                     (*caminho)[l][c] = 0;
                 }
             else{
-                inserirListaEncadeada(listaEncadeada, l + 1, c + 1);
+                inserirListaEncadeada(listaEncadeada, l + 1, c + 1, fazenda->rota[posicaoNaRota]);
             }
         }
     }
@@ -166,11 +222,12 @@ void inicializaListaEncadeada(ListaEncadeada *listaEncadeada){
     listaEncadeada->primeira = NULL;
 }
 
-void inserirListaEncadeada(ListaEncadeada *listaEncadeada, int linha, int coluna){
+void inserirListaEncadeada(ListaEncadeada *listaEncadeada, int linha, int coluna, int numeroRota){
     proximaCelula proxCelula;
     proxCelula = (proximaCelula)malloc(sizeof(Celula));
     proxCelula->coluna = coluna;
     proxCelula->linha = linha;
+    proxCelula->numeroRota = numeroRota;
     proxCelula->proxima = NULL;
     if(listaEncadeada->primeira == NULL){
         listaEncadeada->primeira = proxCelula;
@@ -185,7 +242,7 @@ void imprimirListaEncadeada(ListaEncadeada *listaEncadeada){
     proximaCelula proxCelula;
     proxCelula = listaEncadeada->primeira;
     while (proxCelula != NULL){
-        printf("%d %d\n", proxCelula->linha, proxCelula->coluna);
+        printf("[%-2d %-2d] = %d\n", proxCelula->linha, proxCelula->coluna, proxCelula->numeroRota);
         proxCelula = proxCelula->proxima;
     }
 }

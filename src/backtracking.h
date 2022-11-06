@@ -9,6 +9,7 @@ typedef struct Cel* proximaCelula;
 typedef struct Cel{
     int linha;
     int coluna;
+    int numeroRota;
     proximaCelula proxima;
 }Celula;
 
@@ -24,12 +25,19 @@ typedef struct{
     int M;
 }Fazenda;
 
+typedef struct{
+    int *rota;
+}RotaOtima;
+
 bool leituraDados(Fazenda *fazenda);
 
 void inicializaMatriz(Fazenda *fazenda, int N, int M);
 
 void inserirNumeroCampo(Fazenda *fazenda, int  numeroCampo,int i, int j);
 
+bool criaCassoTeste(RotaOtima *rotaOtima, char *nomeArquivo, int N, int M);
+
+//void CriaRotaOtimaMaxima(RotaOtima *rotaOtima, int N, int M);
 void rotaOtima(Fazenda *fazenda);
 
 void movimentar(Fazenda *fazenda);
@@ -42,6 +50,6 @@ int* gerarSequencia(int n);
 
 void inicializaListaEncadeada(ListaEncadeada *listaEncadeada);
 
-void inserirListaEncadeada(ListaEncadeada *listaEncadeada, int linha, int coluna);
+void inserirListaEncadeada(ListaEncadeada *listaEncadeada, int linha, int coluna, int numeroRota);
 
 void imprimirListaEncadeada(ListaEncadeada *listaEncadeada);
