@@ -11,8 +11,7 @@ int main(){
         return 0;
     }
 
-    clock_t tempoIncial, tempoFinal;
-    tempoIncial = clock();
+    clock_t tempoIncial = clock();
 
     movimentar(&fazenda, tempoIncial);
 
