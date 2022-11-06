@@ -29,7 +29,7 @@ void inicializaMatriz(Fazenda *fazenda, int N, int M){
     fazenda->N = N;
     fazenda->M = M;
     fazenda->campo = (int**)malloc(N * sizeof(int*));
-    for(int i = 0; i < M; i++){
+    for(int i = 0; i < N; i++){
         fazenda->campo[i] = (int*)malloc(M * sizeof(int));
     }
 }
@@ -42,7 +42,7 @@ void movimentar(Fazenda *fazenda, RotaOtima *rotaOtima, clock_t tempoIncial){
     int  i, j;
     int **caminho;
     caminho = (int**)malloc(fazenda->N * sizeof(int*));
-    for(i = 0; i < fazenda->M; i++){
+    for(i = 0; i < fazenda->N; i++){
         // Aloca memoria e preenche cada posição da linha com 0
         // 1 - significa que a posição ja foi visitada / 0 - significa que a posição ainda não foi visitada
         caminho[i] = (int*)calloc(fazenda->M, sizeof(int));
@@ -107,12 +107,11 @@ void movimentarAuxiliar(Fazenda *fazenda, RotaOtima *rotaOtima, ListaEncadeada *
         else{
             inserirListaEncadeada(listaEncadeada, l + 1, c + 1, rotaOtima->rota[posicaoNaRota]);
         }
-    }else{
-        if(*maxAuxiliar > *maxRecursoes){
-            *maxRecursoes = *maxAuxiliar;
-        }
-        *maxAuxiliar = 0;
     }
+    if(*maxAuxiliar > *maxRecursoes){
+        *maxRecursoes = *maxAuxiliar;
+    }
+    *maxAuxiliar = 0;
 }
 
 void inicializaListaEncadeada(ListaEncadeada *listaEncadeada){

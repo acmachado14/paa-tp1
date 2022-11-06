@@ -18,7 +18,7 @@ int main(){
 
         if(gerarTesteAleatorio == 1){
             printf("Digite o nome do arquivo a ser gerado: ");
-            scanf("%s", &arquivoCriar);
+            scanf("%s", arquivoCriar);
             printf("Digite quantas linhas deve ter o campo: ");
             scanf("%d", &N);
             printf("Digite quantas colunas deve ter o campo: ");
@@ -27,8 +27,7 @@ int main(){
         }
         printf("\n");
         printf("Digite o nome do arquivo de onde deve ser lido os dados: ");
-        scanf("%s", &arquivoLeitura);
-
+        scanf("%s", arquivoLeitura);
         leituraDadosOK = leituraDados(&fazenda, &rotaOtima, arquivoLeitura);
         if(leituraDadosOK == true){
             clock_t tempoIncial = clock();
@@ -39,9 +38,6 @@ int main(){
             printf("Deseja executar o programa outra vez [0 - Nao/1 - Sim]: ");
             scanf("%d", &continuarExecucao);
         } while (continuarExecucao < 0 || continuarExecucao > 1);
-        //free(&rotaOtima.rota);
-        //free(&fazenda.campo);
-        
     }
     return 0;
 }
