@@ -140,7 +140,7 @@ void imprimirListaEncadeada(ListaEncadeada *listaEncadeada){
     proximaCelula proxCelula;
     proxCelula = listaEncadeada->primeira;
     while (proxCelula != NULL){
-        printf("[%-3d %-3d] = %d\n", proxCelula->linha, proxCelula->coluna, proxCelula->numeroRota);
+        printf("[%3d,%3d] = %d\n", proxCelula->linha, proxCelula->coluna, proxCelula->numeroRota);
         proxCelula = proxCelula->proxima;
     }
 }
