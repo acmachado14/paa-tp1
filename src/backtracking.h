@@ -33,13 +33,9 @@ void inserirNumeroCampo(Fazenda *fazenda, int  numeroCampo,int i, int j);
 
 void rotaOtima(Fazenda *fazenda);
 
-void movimentar(Fazenda *fazenda);
+void movimentar(Fazenda *fazenda, clock_t tempoIncial);
 
 void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c, int *contRecursoes, int *maxRecursoes, int *maxAuxiliar);
-
-int* fibonacci(int n);
-
-int* gerarSequencia(int n);
 
 void inicializaListaEncadeada(ListaEncadeada *listaEncadeada);
 

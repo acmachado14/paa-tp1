@@ -1,6 +1,6 @@
 #include "backtracking.h"
 
-void main(){
+int main(){
     /*
     * As funções movientar e movimentarAuxiliar estão corretas, para o caso de teste apresentado
     * na especificação do tp
@@ -8,14 +8,13 @@ void main(){
     Fazenda fazenda;
     bool l = leituraDados(&fazenda);
     if(l == false){
-        return;
+        return 0;
     }
 
     clock_t tempoIncial, tempoFinal;
     tempoIncial = clock();
 
-    movimentar(&fazenda);
+    movimentar(&fazenda, tempoIncial);
 
-    tempoFinal = clock();
-    printf("Tempo de execucao: %f ms\n", ((float)(tempoFinal-tempoIncial)) * 1000/(CLOCKS_PER_SEC));
+    return 0;
 }
