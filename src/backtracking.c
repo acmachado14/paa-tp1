@@ -64,10 +64,10 @@ void rotaOtima(Fazenda *fazenda){
         }
 
     }
-    
+
 }
 
-void movimentar(Fazenda *fazenda){
+void movimentar(Fazenda *fazenda, clock_t tempoIncial){
     int  i, j;
     int **caminho;
     caminho = (int**)malloc(fazenda->N * sizeof(int*));
@@ -76,91 +76,73 @@ void movimentar(Fazenda *fazenda){
         // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
         caminho[i] = (int*)calloc(fazenda->M, sizeof(int));
     }
+    int contRecursoes = 0;
+    int maxRecursoes = 0;
+    int maxAuxiliar = 0;
     bool caminhoOtimo = false;
+
     ListaEncadeada listaEncadeada;
     inicializaListaEncadeada(&listaEncadeada);
     for(i = 0; i < fazenda->M; i++){
-        movimentarAuxiliar(fazenda, &listaEncadeada, 0, &caminhoOtimo, &caminho, 0, i);
+        movimentarAuxiliar(fazenda, &listaEncadeada, 0, &caminhoOtimo, &caminho, 0, i, &contRecursoes, &maxRecursoes, &maxAuxiliar);
         if(caminhoOtimo == true){
             break;
         }
     }
+
+    if (ANALISE == 1){
+        clock_t tempoFinal = clock();
+        printf("Quantidade de Recursoes: %d \nMaximo de Recursao alcancado %d \n", contRecursoes, maxRecursoes);
+        printf("Tempo de execucao: %f ms\n", ((float)(tempoFinal-tempoIncial)) * 1000/(CLOCKS_PER_SEC));
+    }
+
     if(caminhoOtimo == true){
         imprimirListaEncadeada(&listaEncadeada);
+        return;
     }
-    else{
-        printf("IMPOSSIVEL!\n");
-    }
+
+    printf("IMPOSSIVEL!\n");
+
 }
 
-void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c){
+void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c, int *contRecursoes, int *maxRecursoes, int *maxAuxiliar){
+    (*maxAuxiliar)++;
+    (*contRecursoes)++;
     if(l == fazenda->N){
         *caminhoOtimo = true;
         return;
     }
-    else if(l >= 0 && l < fazenda->N && c >= 0 && c < fazenda->M){
-        if(fazenda->campo[l][c] == fazenda->rota[posicaoNaRota] && (*caminho)[l][c] != 1){
-            (*caminho)[l][c] = 1; // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
-            
-            movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l + 1, c);
-            
-            if(*caminhoOtimo == false){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c + 1);
-            }
-            if(*caminhoOtimo == false) {
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c - 1);
-            }
-            if(*caminhoOtimo == false){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho,l - 1, c);
-            }
-            if(*caminhoOtimo == false){
-                    (*caminho)[l][c] = 0;
-                }
-            else{
-                inserirListaEncadeada(listaEncadeada, l + 1, c + 1);
-            }
+    else if(l >= 0 && l < fazenda->N && c >= 0 && c < fazenda->M && fazenda->campo[l][c] == fazenda->rota[posicaoNaRota] && (*caminho)[l][c] != 1){
+        (*caminho)[l][c] = 1; // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
+
+        //BAIXO
+        movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l + 1, c, contRecursoes, maxRecursoes, maxAuxiliar);
+
+        //DIREITA
+        if(*caminhoOtimo == false){
+            movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c + 1, contRecursoes, maxRecursoes, maxAuxiliar);
         }
-    }
-}
-
-int* fibonacci(int n){
-    if(n == 0){
-        int* vetor = (int*) malloc(sizeof(int));
-        vetor[0] = 1;
-        return vetor;
-    }
-    if(n == 1){
-        int* vetor = (int*) malloc(sizeof(int)*2);
-        vetor[0] = 1;
-        vetor[1] = 1;
-        return vetor;
-    }
-
-    int *vetor = (int*)malloc(n * sizeof(int));
-    vetor[0] = 1;
-    vetor[1] = 1;
-    for(int i = 2; i < n; i++){
-        vetor[i] = vetor[i - 1] + vetor[i - 2];
-    }
-    return vetor;
-}
-
-int* gerarSequencia(int n){
-    int *fibo = (int*)malloc(n * sizeof(int));
-    int i = 0;
-    int fiboCont = 1;
-    while(i < n){
-        int *vetor = fibonacci(fiboCont);
-
-        for(int j = 0; j < fiboCont; j++){
-            fibo[i] = vetor[j];
-            i++;
+        //ESQUERDA
+        if(*caminhoOtimo == false) {
+            movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c - 1, contRecursoes, maxRecursoes, maxAuxiliar);
         }
-        fiboCont++;
+        //CIMA
+        if(*caminhoOtimo == false){
+            movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho,l - 1, c, contRecursoes, maxRecursoes, maxAuxiliar);
+        }
+        if(*caminhoOtimo == false){
+            (*caminho)[l][c] = 0;
+        }
+        else{
+            inserirListaEncadeada(listaEncadeada, l + 1, c + 1);
+        }
+    }else{
+        if(*maxAuxiliar > *maxRecursoes){
+            *maxRecursoes = *maxAuxiliar;
+        }
+        *maxAuxiliar = 0;
     }
-    return fibo;
 }
-
 void inicializaListaEncadeada(ListaEncadeada *listaEncadeada){
     listaEncadeada->primeira = (proximaCelula)malloc(sizeof(Celula));
     listaEncadeada->primeira = NULL;

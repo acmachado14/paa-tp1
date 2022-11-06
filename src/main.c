@@ -1,14 +1,20 @@
 #include "backtracking.h"
 
-void main(){
+int main(){
     /*
-    * As funções movientar e movimentarAuxiliar estão corretas, para o caso de teste apresentado 
+    * As funções movientar e movimentarAuxiliar estão corretas, para o caso de teste apresentado
     * na especificação do tp
     * */
     Fazenda fazenda;
     bool l = leituraDados(&fazenda);
     if(l == false){
-        return;
+        return 0;
     }
-    movimentar(&fazenda);
+
+    clock_t tempoIncial, tempoFinal;
+    tempoIncial = clock();
+
+    movimentar(&fazenda, tempoIncial);
+
+    return 0;
 }

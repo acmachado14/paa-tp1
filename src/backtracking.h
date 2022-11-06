@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define ANALISE 1
 
@@ -32,13 +33,9 @@ void inserirNumeroCampo(Fazenda *fazenda, int  numeroCampo,int i, int j);
 
 void rotaOtima(Fazenda *fazenda);
 
-void movimentar(Fazenda *fazenda);
+void movimentar(Fazenda *fazenda, clock_t tempoIncial);
 
-void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c);
-
-int* fibonacci(int n);
-
-int* gerarSequencia(int n);
+void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c, int *contRecursoes, int *maxRecursoes, int *maxAuxiliar);
 
 void inicializaListaEncadeada(ListaEncadeada *listaEncadeada);
 
