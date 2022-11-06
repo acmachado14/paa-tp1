@@ -34,7 +34,7 @@ void rotaOtima(Fazenda *fazenda);
 
 void movimentar(Fazenda *fazenda);
 
-void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c, int deOndeVeio);
+void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c);
 
 int* fibonacci(int n);
 

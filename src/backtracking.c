@@ -80,7 +80,7 @@ void movimentar(Fazenda *fazenda){
     ListaEncadeada listaEncadeada;
     inicializaListaEncadeada(&listaEncadeada);
     for(i = 0; i < fazenda->M; i++){
-        movimentarAuxiliar(fazenda, &listaEncadeada, 0, &caminhoOtimo, &caminho, 0, i, 0);
+        movimentarAuxiliar(fazenda, &listaEncadeada, 0, &caminhoOtimo, &caminho, 0, i);
         if(caminhoOtimo == true){
             break;
         }
@@ -93,14 +93,7 @@ void movimentar(Fazenda *fazenda){
     }
 }
 
-void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c, int deOndeVeio){
-    /*
-    * A variavel deOndeVeio representa de onde veio a função movimentarAuxiliar
-    * 1 - Representa que veio de cima
-    * 2 - Representa que veio da esquerda
-    * 3 - Representa que veio da direita
-    * 4 - Representa que veio de baixo
-    * */
+void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c){
     if(l == fazenda->N){
         *caminhoOtimo = true;
         return;
@@ -108,17 +101,17 @@ void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int po
     else if(l >= 0 && l < fazenda->N && c >= 0 && c < fazenda->M){
         if(fazenda->campo[l][c] == fazenda->rota[posicaoNaRota] && (*caminho)[l][c] != 1){
             (*caminho)[l][c] = 1; // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
-            if(*caminhoOtimo == false && deOndeVeio != 4){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l + 1, c, 1);
+            
+            movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l + 1, c);
+            
+            if(*caminhoOtimo == false){
+                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c + 1);
             }
-            if(*caminhoOtimo == false && deOndeVeio != 3){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c + 1, 2);
+            if(*caminhoOtimo == false) {
+                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c - 1);
             }
-            if(*caminhoOtimo == false && deOndeVeio != 2){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c - 1, 3);
-            }
-            if(*caminhoOtimo == false && deOndeVeio != 1){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho,l - 1, c, 4);
+            if(*caminhoOtimo == false){
+                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho,l - 1, c);
             }
             if(*caminhoOtimo == false){
                     (*caminho)[l][c] = 0;
