@@ -44,7 +44,7 @@ void movimentar(Fazenda *fazenda, RotaOtima *rotaOtima, clock_t tempoIncial){
     caminho = (int**)malloc(fazenda->N * sizeof(int*));
     for(i = 0; i < fazenda->M; i++){
         // Aloca memoria e preenche cada posição da linha com 0
-        // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
+        // 1 - significa que a posição ja foi visitada / 0 - significa que a posição ainda não foi visitada
         caminho[i] = (int*)calloc(fazenda->M, sizeof(int));
     }
     int contRecursoes = 0;
@@ -84,7 +84,7 @@ void movimentarAuxiliar(Fazenda *fazenda, RotaOtima *rotaOtima, ListaEncadeada *
         return;
     }
     else if(l >= 0 && l < fazenda->N && c >= 0 && c < fazenda->M && fazenda->campo[l][c] == rotaOtima->rota[posicaoNaRota] && (*caminho)[l][c] != 1){
-        (*caminho)[l][c] = 1; // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
+        (*caminho)[l][c] = 1; // 1 - significa que a posição ja foi visitada / 0 - significa que a posição ainda não foi visitada
 
         //BAIXO
         movimentarAuxiliar(fazenda, rotaOtima, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l + 1, c, contRecursoes, maxRecursoes, maxAuxiliar);

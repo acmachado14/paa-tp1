@@ -39,8 +39,8 @@ int main(){
             printf("Deseja executar o programa outra vez [0 - Nao/1 - Sim]: ");
             scanf("%d", &continuarExecucao);
         } while (continuarExecucao < 0 || continuarExecucao > 1);
-        free(&rotaOtima.rota);
-        free(&fazenda.campo);
+        //free(&rotaOtima.rota);
+        //free(&fazenda.campo);
         
     }
     return 0;
