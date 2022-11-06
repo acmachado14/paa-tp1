@@ -1,5 +1,5 @@
 compile:
-	gcc src/main.c src/backtracking.c -lm -o exefile.out
+	gcc src/main.c src/backtracking.c -lm -o exefile.exe
 
 run:
-	./exefile.out
+	./exefile.exe

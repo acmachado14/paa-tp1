@@ -64,7 +64,7 @@ void rotaOtima(Fazenda *fazenda){
         }
 
     }
-    
+
 }
 
 void movimentar(Fazenda *fazenda){
@@ -76,24 +76,39 @@ void movimentar(Fazenda *fazenda){
         // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
         caminho[i] = (int*)calloc(fazenda->M, sizeof(int));
     }
+    int contRecursoes = 0;
+    int maxRecursoes = 0;
+    int maxAuxiliar = 0;
     bool caminhoOtimo = false;
+
     ListaEncadeada listaEncadeada;
+    puts("teste");
     inicializaListaEncadeada(&listaEncadeada);
+    puts("teste");
     for(i = 0; i < fazenda->M; i++){
-        movimentarAuxiliar(fazenda, &listaEncadeada, 0, &caminhoOtimo, &caminho, 0, i);
+        movimentarAuxiliar(fazenda, &listaEncadeada, 0, &caminhoOtimo, &caminho, 0, i, &contRecursoes, &maxRecursoes, &maxAuxiliar);
         if(caminhoOtimo == true){
             break;
         }
     }
+
+    if (ANALISE == 1){
+        printf("Quantidade de Recursoes: %d", contRecursoes);
+        //imprimirAnalise();
+    }
+
     if(caminhoOtimo == true){
         imprimirListaEncadeada(&listaEncadeada);
+        return;
     }
-    else{
-        printf("IMPOSSIVEL!\n");
-    }
+
+    printf("IMPOSSIVEL!\n");
+
 }
 
-void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c){
+void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int posicaoNaRota, bool *caminhoOtimo, int ***caminho, int l, int c, int *contRecursoes, int *maxRecursoes, int *maxAuxiliar){
+    (*maxAuxiliar)++;
+    (*contRecursoes)++;
     if(l == fazenda->N){
         *caminhoOtimo = true;
         return;
@@ -101,21 +116,21 @@ void movimentarAuxiliar(Fazenda *fazenda, ListaEncadeada *listaEncadeada, int po
     else if(l >= 0 && l < fazenda->N && c >= 0 && c < fazenda->M){
         if(fazenda->campo[l][c] == fazenda->rota[posicaoNaRota] && (*caminho)[l][c] != 1){
             (*caminho)[l][c] = 1; // 1 - siguinifica que a posição ja foi vizitada / 0 - siguinifica que a posição ainda não foi vizitada
-            
-            movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l + 1, c);
-            
+
+            movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l + 1, c, contRecursoes, maxRecursoes, maxAuxiliar);
+
             if(*caminhoOtimo == false){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c + 1);
+                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c + 1, contRecursoes, maxRecursoes, maxAuxiliar);
             }
             if(*caminhoOtimo == false) {
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c - 1);
+                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho, l, c - 1, contRecursoes, maxRecursoes, maxAuxiliar);
             }
             if(*caminhoOtimo == false){
-                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho,l - 1, c);
+                movimentarAuxiliar(fazenda, listaEncadeada, posicaoNaRota + 1, caminhoOtimo, caminho,l - 1, c, contRecursoes, maxRecursoes, maxAuxiliar);
             }
             if(*caminhoOtimo == false){
-                    (*caminho)[l][c] = 0;
-                }
+                (*caminho)[l][c] = 0;
+            }
             else{
                 inserirListaEncadeada(listaEncadeada, l + 1, c + 1);
             }
