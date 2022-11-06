@@ -1,8 +1,11 @@
 #include "backtracking.h"
 
-bool leituraDados(Fazenda *fazenda){
+bool leituraDados(Fazenda *fazenda, char *nomeArquivo){
     int N, M, numeroCampo, i, j;
-    char nomeArquivo[50] = "tests/test02.txt";
+    char nomeArquivo[50] = "tests/test01.txt";
+    char diretorio[100];
+    strcpy(diretorio, "tests/");
+    strcat(strcat(diretorio, nomeArquivo), ".txt");
     FILE *file;
     file = fopen(nomeArquivo, "r");
     if(file == NULL){
@@ -67,29 +70,31 @@ void CriaRotaOtimaMaxima(RotaOtima *rotaOtima, int N, int M){
     
 }
 
+void inicializaRotaOtima(RotaOtima *rotaOtima, int N, int M){
+    rotaOtima->rota = (int*)malloc((N * M) * sizeof(int));
+}
+
 bool criaCassoTeste(RotaOtima *rotaOtima, char *nomeArquivoTeste, int N, int M){
-    char *diretorio = (char*)malloc(sizeof(char));
+    int i, j, posicao;
+    int maximaPosicao = N * M;
+    char diretorio[100];
     strcpy(diretorio, "tests/");
     strcat(strcat(diretorio, nomeArquivoTeste), ".txt");
-    printf("%s||\n", diretorio);
     FILE *file;
     file = fopen(diretorio,"w");
-    printf("%s||\n", diretorio);
     if(file == NULL){
         printf("\nErro na criacao do arquivo de teste !!!!!!!!\n\n");
         return false;
     }
     fprintf(file, "%d %d\n", N, M);
-    /*
-    if(file){
-        printf("\nDigite um texto e pressione ENTER ao finalizar!");
-        scanf("%c", &letra);
-        while(letra != '\n'){
-            fputc(letra, file);
-            scanf("%c", &letra);
+    for(i = 0; i < N; i++){
+        for(j = 0; j < M; j++){
+            posicao = rand() % maximaPosicao;
+            fprintf(file, "%d ", rotaOtima->rota[posicao]);
         }
-        fclose(file);
-    }*/
+        fprintf(file, "\n");
+    }
+
     fclose(file);
     return true;
 }

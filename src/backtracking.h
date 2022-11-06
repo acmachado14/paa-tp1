@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <stdbool.h>
 
 #define ANALISE 1
@@ -37,6 +38,7 @@ void inserirNumeroCampo(Fazenda *fazenda, int  numeroCampo,int i, int j);
 
 bool criaCassoTeste(RotaOtima *rotaOtima, char *nomeArquivo, int N, int M);
 
+void inicializaRotaOtima(RotaOtima *rotaOtima, int N, int M)
 //void CriaRotaOtimaMaxima(RotaOtima *rotaOtima, int N, int M);
 void rotaOtima(Fazenda *fazenda);
 
