@@ -46,6 +46,6 @@ void inserirListaEncadeada(ListaEncadeada *listaEncadeada, int linha, int coluna
 
 void imprimirListaEncadeada(ListaEncadeada *listaEncadeada);
 
-bool criaCassoTeste(char nomeArquivo[], int N, int M);
+bool criaCasoTeste(char nomeArquivo[], int N, int M);
 
 void inicializaRotaOtima(RotaOtima *rotaOtima, int N, int M);

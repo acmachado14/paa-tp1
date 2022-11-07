@@ -177,7 +177,7 @@ void inicializaRotaOtima(RotaOtima *rotaOtima, int N, int M){
     rotaOtima->rota = (int*)malloc((N * M) * sizeof(int));
 }
 
-bool criaCassoTeste(char nomeArquivoTeste[], int N, int M){
+bool criaCasoTeste(char nomeArquivoTeste[], int N, int M){
     RotaOtima rotaOtima;
     int i, j, posicao;
     int maximaPosicao = N * M;

@@ -23,7 +23,7 @@ int main(){
             scanf("%d", &N);
             printf("Digite quantas colunas deve ter o campo: ");
             scanf("%d", &M);
-            criaTesteOK = criaCassoTeste(arquivoCriar, N, M);
+            criaTesteOK = criaCasoTeste(arquivoCriar, N, M);
         }
         printf("\n");
         printf("Digite o nome do arquivo de onde deve ser lido os dados: ");
